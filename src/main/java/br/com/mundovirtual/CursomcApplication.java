@@ -9,10 +9,15 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import br.com.mundovirtual.domain.Categoria;
 import br.com.mundovirtual.domain.Cidade;
+import br.com.mundovirtual.domain.Cliente;
+import br.com.mundovirtual.domain.Endereco;
 import br.com.mundovirtual.domain.Estado;
 import br.com.mundovirtual.domain.Produto;
+import br.com.mundovirtual.domain.enums.TipoCliente;
 import br.com.mundovirtual.repositories.CategoriaRepository;
 import br.com.mundovirtual.repositories.CidadeRepository;
+import br.com.mundovirtual.repositories.ClienteRepository;
+import br.com.mundovirtual.repositories.EnderecoRepository;
 import br.com.mundovirtual.repositories.EstadoRepository;
 import br.com.mundovirtual.repositories.ProdutoRepository;
 
@@ -27,6 +32,10 @@ public class CursomcApplication implements CommandLineRunner {
 	private CidadeRepository cidadeRepository;
 	@Autowired
 	private EstadoRepository estadoRepository;
+	@Autowired
+	private ClienteRepository clienteRepository;
+	@Autowired
+	private EnderecoRepository enderecoRepository;
 	
 	public static void main(String[] args) {
 		SpringApplication.run(CursomcApplication.class, args);
@@ -63,6 +72,18 @@ public class CursomcApplication implements CommandLineRunner {
 		produtoRepository.saveAll(Arrays.asList(prod1, prod2, prod3));
 		estadoRepository.saveAll(Arrays.asList(est1, est2));
 		cidadeRepository.saveAll(Arrays.asList(c1,c2,c3));
+		
+		Cliente cliente = new Cliente(null, "Marcos Macedo", "ricardo.paiva.macedo@hotmail.com", "36915363874", TipoCliente.PESSOAFISICA);
+		
+		cliente.getTelefones().addAll(Arrays.asList("27363323", "93838393"));
+		
+		Endereco end1 = new Endereco(null, "Rua Flores", "300", "Apto 203", "Jardim", "38220834", cliente, c1);
+		Endereco end2 = new Endereco(null, "Avenida Matos", "105", "Sala 800", "Centro", "38777012", cliente, c2);
+		
+		cliente.getEnderecos().addAll(Arrays.asList(end1, end2));
+		
+		clienteRepository.saveAll(Arrays.asList(cliente));
+		enderecoRepository.saveAll(Arrays.asList(end1, end2));
 		
 	}
 
